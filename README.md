@@ -1,2 +1,2 @@
 # CSC-2463
-Programming for digital media.
+Programming assignments for CSC 2463 (Digital media).
