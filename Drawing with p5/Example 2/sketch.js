@@ -17,10 +17,10 @@ fill(red);
   circle(400, 290, 300)
   
 fill(green);
-  circle(510, 450, 300);
+  circle(500, 450, 300);
   
   fill(blue);
-  circle(280, 450, 300);
+  circle(290, 450, 300);
   
   
   
