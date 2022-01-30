@@ -17,22 +17,33 @@ function draw() {
  
   
 fill(green);
-strokeWeight(5);
+strokeWeight(7);
 stroke(255);
 circle(300,300, 300);
 
 fill(red)
 beginShape();
+//1
 vertex(450, 250)
+//2
 vertex(350, 248)
+//3
 vertex(300, 150)
+//4
 vertex(250, 248)
+//5
 vertex(150, 250)
-vertex(225, 330)
+//6
+vertex(230, 320)
+//7
 vertex(185, 430)
+//8
 vertex(300, 370)
-vertex(410, 430)
-vertex(375, 330)
+//9
+vertex(415, 430)
+//10
+vertex(370, 320)
+//11
 vertex(450,250)
 
 
