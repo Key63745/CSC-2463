@@ -9,20 +9,11 @@ function setup()
   
   createCanvas(800, 500);
   background(255);
-  currentColor = 0;
-  red = new colorBox(0, "red");
-  orange = new colorBox(50, "orange");
-  yellow = new colorBox(100, "yellow");
-  green = new colorBox(150, "green");
-  cyan = new colorBox(200, "cyan"); 
-  blue = new colorBox(250, "blue");
-  magenta = new colorBox(300, "magenta");
-  brown = new colorBox(350, "brown");
-  white = new colorBox(400, "white");
-  black = new colorBox(450, "black");
-
-createButton("Refresh!");
- 
+  resetSketch();
+  var button = createButton("Clear")
+  button.size(50,50);
+  button.mousePressed(resetSketch);
+  
 }
 
 
@@ -54,6 +45,25 @@ red.onMousePressed();
   
   
 }
+
+
+
+function resetSketch()
+{
+  background(255);
+  currentColor = 0;
+  red = new colorBox(0, "red");
+  orange = new colorBox(50, "orange");
+  yellow = new colorBox(100, "yellow");
+  green = new colorBox(150, "green");
+  cyan = new colorBox(200, "cyan"); 
+  blue = new colorBox(250, "blue");
+  magenta = new colorBox(300, "magenta");
+  brown = new colorBox(350, "brown");
+  white = new colorBox(400, "white");
+  black = new colorBox(450, "black");
+}
+
 
 
 //Class that sets the dimensions of the color boxes, and changes the paint colors
