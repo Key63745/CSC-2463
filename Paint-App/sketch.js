@@ -21,9 +21,11 @@ function setup()
   white = new colorBox(400, "white");
   black = new colorBox(450, "black");
 
-
+createButton("Refresh!");
  
 }
+
+
 
 
 
@@ -54,7 +56,7 @@ red.onMousePressed();
 }
 
 
-
+//Class that sets the dimensions of the color boxes, and changes the paint colors
 class colorBox
 {
 
@@ -97,7 +99,6 @@ if(mouseY > 0 && mouseY < 50){
   currentColor = "yellow";
 }else if( mouseY > 150 && mouseY < 200){
   currentColor = "green";
-
 }else if( mouseY > 200 && mouseY < 250){
   currentColor = "cyan";
 }else if (mouseY > 250 && mouseY < 300){
@@ -125,7 +126,7 @@ function drawing()
 {
   push();
   stroke(currentColor);
-  strokeWeight(3);
+  strokeWeight(4);
   line(pmouseX, pmouseY, mouseX, mouseY);
   pop();
 
