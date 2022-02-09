@@ -1,14 +1,24 @@
-let character;
+let spriteSheet;
+let spriteSheet2;
+let spriteSheet3;
+let character = [];
+let count = 10;
 
 function preload()
 {
   spriteSheet = loadImage("SpelunkyGuy.png");
+  spriteSheet2 = loadImage("Green.png");
+  spriteSheet3 = loadImage("Purple.png")
 }
 
 function setup() {
   createCanvas(600, 600);
   imageMode(CENTER);
-  character = new Character(spriteSheet, 0, 300);
+
+  for(i = 0; i < count; i++)
+  {
+    character[i] = new Character(random([spriteSheet, spriteSheet2, spriteSheet3]), random(100, 500), random(100, 500), random(1, 5));
+  }
 }
 
 
@@ -17,12 +27,17 @@ function keyPressed()
 {
   if(keyCode == RIGHT_ARROW)
   {
-    character.go(1);
+    for(i = 0; i < count; i++ )
+    character[i].go(1);
+    
    
   }
-  else(keyCode == LEFT_ARROW)
+  else if(keyCode == LEFT_ARROW)
   {
-    character.go(-1);
+    for(i = 0; i < count; i++)
+    {
+    character[i].go(-1);
+    }
     
   }
 }
@@ -31,20 +46,26 @@ function keyPressed()
 
 function keyReleased()
 {
- character.stop();
+  for( i = 0; i < count; i++)
+  {
+    character[i].stop();
+  }
 }
 
 
 
 function draw() {
-  background(255, 255, 255);
-  character.draw();
+  background(255);
+  for(i = 0; i < count; i++)
+  {
+  character[i].draw();
+  }
 }
 
 
 class Character
 {
-  constructor(spriteSheet, x, y)
+  constructor(spriteSheet, x, y, speed)
   {
     this.spriteSheet = spriteSheet;
     this.sx = 0;
@@ -52,6 +73,7 @@ class Character
     this.y = y;
     this.move = 0;
     this.facing = 1;
+    this.speed = speed;
   }
 
   draw()
@@ -59,7 +81,7 @@ class Character
     push();
     translate(this.x, this.y);
     scale(this.facing, 1);
-    if(move == 0)
+    if(this.move == 0)
     {
       image(this.spriteSheet, 0, 0, 200, 200, 0, 0, 80, 80);
     }
@@ -72,7 +94,17 @@ class Character
     {
       this.sx = (this.sx + 1) % 8;
     }
-    this.x += 2 * this.move;
+    this.x += this.speed * this.move;
+    if(this.x < 30)
+    {
+      this.move = 1;
+      this.facing =1;
+    }
+    else if (this.x > width - 30)
+    {
+      this.move = -1;
+      this.facing = -1;
+    }
     pop();
   }
 
