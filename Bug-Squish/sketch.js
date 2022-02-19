@@ -1,10 +1,10 @@
 let bgImage, score, walking, squished, 
-time, gameState, startTime, timerIsDone, bugGroup, wall;
+time, gameState, startTime, timerIsDone, bugGroup, wall,speed;
 let bugs = [];
 let walls = [];
 let imageURL = "https://mbardin.github.io/PDM-resources/media/sprite_images/bug_squish/";
 let dir = [0, 90, 180, 270];
-let speed = 2;
+
 
 
 
@@ -15,7 +15,7 @@ function preload(){
 
   for(let i = 0; i < 4; i++)
   {
-    bugs[i] = loadImage("bugsprite_" + (i + 1) + ".png");
+    bugs[i] = loadImage("spider_" + (i + 1) + ".png");
   }
 }
 
@@ -27,6 +27,7 @@ function setup() {
   gameState = "start";
   bugGroup = new Group();
   walls = new Group();
+  speed = 2;
   rectMode(CENTER);
   textAlign(CENTER);
   borders();
@@ -63,6 +64,9 @@ pop();
 if(bugGroup.length < 1){
   makeBugs(20);
 }
+
+
+
 
 timer();
 bugGroup.collide(walls, teleport);
@@ -108,7 +112,7 @@ function makeBugs(num){
 
   for(let i = 0; i < num; i++){
   let spriteSheet = createSprite(random(100, width, -100), random(100, height -100));
- spriteSheet.scale = 0.5;
+ spriteSheet.scale = 2;
  spriteSheet.isDead = false;
 spriteSheet.rotation = random(dir);
 
@@ -135,6 +139,7 @@ if(spriteSheet.rotation == 0 ){
     score ++;
     bugGroup.remove(this);
     this.isDead = true;
+    
     } 
   };
 
