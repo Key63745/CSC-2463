@@ -4,13 +4,22 @@ let bugs = [];
 let walls = [];
 let imageURL = "https://mbardin.github.io/PDM-resources/media/sprite_images/bug_squish/";
 let dir = [0, 90, 180, 270];
-
-
-
+let  synth, seq, squishSound, endGame;
+let melody = 
+[["B3","E4"],null, null,null,["F#4", "G4"], null, null, null, 
+["E4", "D4"], null, null, null, ["B3", "D4"], null, null, null,
+["B3","E4"],null, null,null,["F#4", "G4"], null, null, null,
+["A4", "B4"], null, null, null, ["G4", "B4"], null, null, null,
+["G4", "B4"], null ,null, null, ["G4", "A4"], null, null, null,
+["F#4", "G4"], null, null, null, ["E4","F#4"], null, null, null]; //notes to be played in order
+let soundURL = 'Music/SquishSound.wav';
+let soundURL1 = 'Music/endGame.wav';
 
 
 
 function preload(){
+  squishSound = new Tone.Player(soundURL).toDestination();
+  endGame = new Tone.Player(soundURL1).toDestination();
   bgImage = loadImage(imageURL + "background.jpg");
 
   for(let i = 0; i < 4; i++)
@@ -32,7 +41,26 @@ function setup() {
   textAlign(CENTER);
   borders();
 
-
+  Tone.Transport.bpm = 60; //the tempo of our clock
+  Tone.Transport.start(); //start the clock. MUST HAPPEN TO PLAY A MELODY!!
+  
+synth = new Tone.Synth({
+  oscillator: {
+    type: "sine"
+  },
+  envelope: {
+    attack: 0.1,
+    decay: 0.2,
+    sustain: 1.0,
+    release: 0.8
+  }
+}).toDestination();
+  
+seq = new Tone.Sequence(function(time, note){
+  if(note != null){
+  synth.triggerAttackRelease(note, 0.5);
+  }
+}, melody, `8n`);
  
 
 }
@@ -51,14 +79,14 @@ pop();
 if(mouseIsPressed){
   makeBugs(20);
   gameState = "play"
-  
+  seq.start();
 }
 
 } else if (gameState == "play"){
 
 push();
 fill(0);
-text("TIME LEFT: " + (startTime - timer()) +"\n SCORE:  " +score, 50, 20);
+text("TIME LEFT: " + (startTime - timer() % startTime) + "\nSCORE: " + score, 50, 20);
 pop();
 
 if(bugGroup.length < 1){
@@ -70,12 +98,15 @@ if(bugGroup.length < 1){
 
 timer();
 bugGroup.collide(walls, teleport);
+bugGroup.displace(bugGroup);
 drawSprites();
   
 
 
 if(timerIsDone === true){
   gameState = "end";
+  seq.stop();
+  endGame.start();
 }
 
 } else if (gameState === "end"){
@@ -111,8 +142,8 @@ function timer() {
 function makeBugs(num){
 
   for(let i = 0; i < num; i++){
-  let spriteSheet = createSprite(random(100, width, -100), random(100, height -100));
- spriteSheet.scale = 2;
+  let spriteSheet = createSprite(random(100, width, -100), random(100, height -100), 50, 50);
+ spriteSheet.scale = 0.8;
  spriteSheet.isDead = false;
 spriteSheet.rotation = random(dir);
 
@@ -128,11 +159,12 @@ if(spriteSheet.rotation == 0 ){
 
 
   walking = spriteSheet.addAnimation("walk", bugs[0], bugs[1], bugs[0], bugs[2])
-  walking.frameDelay = 20;
+  walking.frameDelay = 8;
   squished = spriteSheet.addAnimation("squish", bugs[3])
 
   spriteSheet.onMousePressed = function(){
     if(this.isDead === false){
+      squishSound.start();
     this.changeAnimation("squish");
     this.setSpeed(0,0);
     this.life = 100;
