@@ -14,6 +14,10 @@ let melody =
 ["F#4", "G4"], null, null, null, ["E4","F#4"], null, null, null]; //notes to be played in order
 let soundURL = 'Music/SquishSound.wav';
 let soundURL1 = 'Music/endGame.wav';
+let serialPDM;
+let portName = 'COM5';
+
+let sensors;
 
 
 
@@ -164,8 +168,8 @@ if(spriteSheet.rotation == 0 ){
 
   spriteSheet.onMousePressed = function(){
     if(this.isDead === false){
-      squishSound.start();
     this.changeAnimation("squish");
+    squishSound.start();
     this.setSpeed(0,0);
     this.life = 100;
     score ++;
